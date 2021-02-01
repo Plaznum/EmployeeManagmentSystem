@@ -140,15 +140,10 @@ public class EMSRunner {
 	
 	//when called - move any remaining employees to General department
 	//create General department on startup?
-	public static void removeDept(Department dept, List<Department> userDeptList) {
+	public static List<Department> removeDept(Department dept, List<Department> userDeptList) {
 		Stream<Department> userDeptStream = userDeptList.stream();
-		
-		//filter out the employee
-		List<Department> newUserDeptList = userDeptStream.filter(e -> e.getDeptID() != dept.getDeptID())
-					.collect(Collectors.toList());
-		
-		//copy the list back to the department
-		userDeptList = newUserDeptList;
+		List<Department> newUserDeptList = userDeptStream.filter(e -> e.getDeptID() != dept.getDeptID()).collect(Collectors.toList());
+			return newUserDeptList;		
 	}
 	
 	public static void removeEmp(Employee employee, List<Employee> userEmpList) {
@@ -516,7 +511,7 @@ public class EMSRunner {
 					+ "2 - No");
 			input = scan.nextInt();
 			if(input == 1) {
-				removeDept(userDeptList.get(deptEdit), userDeptList);
+				userDeptList = removeDept(userDeptList.get(deptEdit), userDeptList);
 				System.out.println("Department has been removed.");
 				break;
 			} else {
